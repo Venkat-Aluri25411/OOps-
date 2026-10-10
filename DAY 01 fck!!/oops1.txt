@@ -1,16 +1,18 @@
-In one Java file, many classes can be created. We can save the file with any name only if none of the classes is public. The order of classes is not important. If one class is public, its name must match the file name; otherwise, a compilation error occurs.
+# Day 1 — Java Basics and Source File Rules
 
+## 1. Multiple Classes in a Single Java File
 
-Interview / viva answer
+A Java source file can contain multiple top-level classes, but **at most one top-level class can be `public`** under the usual Java compiler rules.
 
-“A Java file can contain multiple classes, but only one top-level class can be public. If a public class exists, the file name must exactly match the public class name. If there is no public class, the file can be saved with any valid name. The order of classes in the file does not affect compilation
+### Interview / Viva Answer
 
+A Java file can contain multiple classes, but at most one top-level class can be public. If a public class exists, the file name must exactly match the public class name. If there is no public class, the file can be saved with any valid name. The order of classes in the file does not affect compilation.
 
-Example 1: Public class exists
+### Example 1: Public Class Exists
 
-Save the following code as StudentDemo.java:
+**File name: `StudentDemo.java`**
 
-
+```java
 class Student {
     String name;
 
@@ -27,26 +29,26 @@ public class StudentDemo {
         s1.display();
     }
 }
+```
 
+**Explanation:**
 
-Here:
+- `Student` is a non-public class.
+- `StudentDemo` is the only public class.
+- Therefore, the file must be named `StudentDemo.java`.
+- The classes can be declared in a different order without changing the output.
 
-Student is a normal class.
+**Output:**
 
-StudentDemo is the only public class.
+```text
+Student name: Ravi
+```
 
-Therefore, the file must be named StudentDemo.java.
+### Example 2: No Public Class
 
-You can write StudentDemo first and Student second; the output will not change.
+**File name: `MyProgram.java`**
 
-
-
-
-Example 2: No public class
-
-Save the following code as MyProgram.java, Day1.java, or any other valid name:
-
-
+```java
 class Student {
     String name;
 
@@ -63,54 +65,154 @@ class StudentMain {
         s1.display();
     }
 }
+```
 
-Because neither Student nor StudentMain is public, the file name can be anything, such as MyProgram.java
+**Explanation:**
 
+Neither `Student` nor `StudentMain` is public. Therefore, the file can be named `MyProgram.java`, `Day1.java`, or another valid Java source filename.
 
+### Wrong Example 1: Two Public Classes
 
-
-Wrong example
-
+```java
 public class Student {
 }
 
 public class StudentDemo {
 }
+```
 
-This is wrong because one .java file cannot contain two public top-level classes. 
-The compiler will show an error.
+**Why is this wrong?**
 
+A single Java source file cannot declare two public top-level classes under the standard file-based Java compilation rules. Each public top-level class must be placed in its appropriately named source file.
 
+### Wrong Example 2: Public Class and Mismatched Filename
 
-Another wrong example:
+**File name: `Day1.java`**
 
-// File name: Day1.java
+```java
 public class Student {
 }
-This is also wrong because the public class is Student, 
-so the file must be named Student.java, not Day1.java.
+```
 
-------------------------------------------------------------------------------------------------------------
-1.Java automatically imports public types from the java.lang package; we do not need to import String, System, or Math.
+**Why is this wrong?**
 
-2.Classes in the same package can use each other without an import statement.
+The public class is named `Student`, but the filename is `Day1.java`.
 
-3.import java.util.*; imports only classes directly inside java.util; it does not import subpackages such as java.util.concurrent.[Example]
+The correct filename is **`Student.java`**.
 
-4.A Java source file can contain multiple classes, but at most one top-level class can be public.
+---
 
-5.A source file can have at most one package statement, and it must appear before import statements.
+## 2. Java Packages and Import Statements
 
-6.import is optional; without it, we can use a fully qualified name such as java.util.Scanner, but it makes code longer and less readable.
+### 1. Automatic Import of `java.lang`
 
-7.Explicit import, such as import java.util.Scanner;, is generally preferred for readability.
+Java automatically makes the types in the `java.lang` package available. We do not need to explicitly import classes such as `String`, `System`, or `Math`.
 
-8.Top-level classes can use public, default access, final, abstract, and formerly strictfp; they cannot use private, protected, or static.
+```java
+public class Main {
+    public static void main(String[] args) {
+        String name = "Ravi";
+        System.out.println(Math.sqrt(25));
+    }
+}
+```
 
-9.private, protected, and static are used for nested/member classes, fields, methods, and constructors.
+### 2. Classes in the Same Package
 
-10.public means accessible anywhere; default means accessible only within the same package.
+Classes belonging to the same package can generally access one another without an import statement, subject to Java's access-control rules.
 
+### 3. Wildcard Import
 
+```java
+import java.util.*;
+```
 
+This makes accessible types declared directly in `java.util` available by their simple names. It **does not import subpackages** such as `java.util.concurrent`.
 
+### 4. Multiple Classes in One File
+
+A Java source file can contain multiple top-level classes, but at most one can be public under the usual file-based compilation rules.
+
+### 5. Package Statement Position
+
+A source file can have at most one package declaration. If present, it must appear before import declarations and top-level type declarations, apart from comments and applicable annotations.
+
+```java
+package mypackage;
+
+import java.util.Scanner;
+
+class Main {
+}
+```
+
+### 6. Import Statements Are Optional
+
+We can use a fully qualified class name instead of importing a class.
+
+**Without an import:**
+
+```java
+java.util.Scanner sc = new java.util.Scanner(System.in);
+```
+
+**With an import:**
+
+```java
+import java.util.Scanner;
+
+Scanner sc = new Scanner(System.in);
+```
+
+An import is not required when we use the fully qualified name. Imports can improve readability by avoiding repeated package names.
+
+### 7. Explicit Import
+
+```java
+import java.util.Scanner;
+```
+
+An explicit import identifies the type being used and can make dependencies easier to understand.
+
+### 8. Modifiers for Top-Level Classes
+
+Top-level classes can use modifiers such as:
+
+- `public`
+- `abstract`
+- `final`
+- No access modifier, which gives package-private access
+- `strictfp` in source code, although it is redundant in modern Java
+
+Top-level classes **cannot** be declared `private`, `protected`, or `static`.
+
+### 9. Modifiers for Nested Classes
+
+Nested classes can use modifiers such as `private`, `protected`, `public`, and `static`, subject to the rules for their declaration context.
+
+Fields, methods, and constructors also have their own permitted modifiers.
+
+### 10. Public vs Default Access
+
+| Modifier | Accessibility |
+|---|---|
+| `public` | Accessible wherever the type and its enclosing types are accessible |
+| No modifier (package-private) | Accessible only within the same package |
+
+**Important:** Default access is not the same as the `default` keyword used in other Java contexts, such as interface default methods or switch labels.
+
+---
+
+## Quick Interview Revision
+
+- **Multiple classes:** A Java source file can contain multiple top-level classes.
+- **Public class:** At most one public top-level class under normal file-based compilation rules.
+- **Filename:** Must match the public top-level class name.
+- **No public class:** The source file can have any valid filename.
+- **Class order:** Does not generally affect compilation when references are valid.
+- **`java.lang`:** Available automatically.
+- **Same package:** No import is needed to refer to accessible types.
+- **Wildcard import:** Does not import subpackages.
+- **Package declaration:** Must precede imports and type declarations.
+- **Top-level access:** `public` or package-private.
+- **`private`, `protected`, `static`:** Not permitted on top-level class declarations.
