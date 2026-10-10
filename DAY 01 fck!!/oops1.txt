@@ -1,0 +1,116 @@
+In one Java file, many classes can be created. We can save the file with any name only if none of the classes is public. The order of classes is not important. If one class is public, its name must match the file name; otherwise, a compilation error occurs.
+
+
+Interview / viva answer
+
+“A Java file can contain multiple classes, but only one top-level class can be public. If a public class exists, the file name must exactly match the public class name. If there is no public class, the file can be saved with any valid name. The order of classes in the file does not affect compilation
+
+
+Example 1: Public class exists
+
+Save the following code as StudentDemo.java:
+
+
+class Student {
+    String name;
+
+    void display() {
+        System.out.println("Student name: " + name);
+    }
+}
+
+public class StudentDemo {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.name = "Ravi";
+
+        s1.display();
+    }
+}
+
+
+Here:
+
+Student is a normal class.
+
+StudentDemo is the only public class.
+
+Therefore, the file must be named StudentDemo.java.
+
+You can write StudentDemo first and Student second; the output will not change.
+
+
+
+
+Example 2: No public class
+
+Save the following code as MyProgram.java, Day1.java, or any other valid name:
+
+
+class Student {
+    String name;
+
+    void display() {
+        System.out.println("Student name: " + name);
+    }
+}
+
+class StudentMain {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.name = "Ravi";
+
+        s1.display();
+    }
+}
+
+Because neither Student nor StudentMain is public, the file name can be anything, such as MyProgram.java
+
+
+
+
+Wrong example
+
+public class Student {
+}
+
+public class StudentDemo {
+}
+
+This is wrong because one .java file cannot contain two public top-level classes. 
+The compiler will show an error.
+
+
+
+Another wrong example:
+
+// File name: Day1.java
+public class Student {
+}
+This is also wrong because the public class is Student, 
+so the file must be named Student.java, not Day1.java.
+
+------------------------------------------------------------------------------------------------------------
+1.Java automatically imports public types from the java.lang package; we do not need to import String, System, or Math.
+
+2.Classes in the same package can use each other without an import statement.
+
+3.import java.util.*; imports only classes directly inside java.util; it does not import subpackages such as java.util.concurrent.[Example]
+
+4.A Java source file can contain multiple classes, but at most one top-level class can be public.
+
+5.A source file can have at most one package statement, and it must appear before import statements.
+
+6.import is optional; without it, we can use a fully qualified name such as java.util.Scanner, but it makes code longer and less readable.
+
+7.Explicit import, such as import java.util.Scanner;, is generally preferred for readability.
+
+8.Top-level classes can use public, default access, final, abstract, and formerly strictfp; they cannot use private, protected, or static.
+
+9.private, protected, and static are used for nested/member classes, fields, methods, and constructors.
+
+10.public means accessible anywhere; default means accessible only within the same package.
+
+
+
+
